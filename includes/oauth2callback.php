@@ -8,7 +8,6 @@
 
 	$client = new Google_Client();
 
-
 	$client->setAuthConfig( LogApp::$authConfig );
 
 	$client->addScope(['email', 'profile']);

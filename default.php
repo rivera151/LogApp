@@ -15,7 +15,8 @@
 			<tr>
 			<td id="signIn">
 				<?php
-					print( "You are logged in as:<br><h3>" . $_SESSION['given_name'] . " " . $_SESSION['family_name'] . "<br>(" . $_SESSION['email'] . ")</h3>");
+				    if (isset($_SESSION['email']))
+					   print( "You are logged in as:<br><h3>" . $_SESSION['given_name'] . " " . $_SESSION['family_name'] . "<br>(" . $_SESSION['email'] . ")</h3>");
 				?>
 			</td>
 			<tr><td><a href='preferences.php'>Preferences</a>

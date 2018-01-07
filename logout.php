@@ -1,6 +1,9 @@
 <?php 
+session_start();
 // Unset all of the session variables.
 $_SESSION = array();
+
+// TODO:  I need to make this a function in the App class, so I can call it from a page after said page determines the user needs to be denied access to the content
 
 // If it's desired to kill the session, also delete the session cookie.
 // Note: This will destroy the session, and not just the session data!

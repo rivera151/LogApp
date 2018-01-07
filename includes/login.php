@@ -1,15 +1,13 @@
 <?php
- 
+    session_start();
 	include_once 'LogApp.php';
-
+	include_once 'DataHelper.php';
+    include_once 'LoggedOffException.php';
 	require_once LogApp::$googleApiPhpClientPath;
 	
-	// include_once 'includes/db_connect.php';
-
-	session_start();
 	$client = new Google_Client();
 
-	$client->setAuthConfig( 'includes/'.LogApp::$authConfig );
+	$client->setAuthConfig( 'includes/'. LogApp::$authConfig );
 
 	$client->addScope(['email', 'profile']);
 
@@ -18,7 +16,19 @@
 		$at = $_SESSION['access_token'];
 		$client->setAccessToken($at);
 		$uia = getUserInfoArray();
-		$_SESSION['email'] = $uia['email'];
+		
+		$email = $uia['email'];
+		
+		try {
+		    $dh = new DataHelper($email);
+		}
+		catch (LoggedOffException $e) {
+		    
+		    print "login.php: $e";
+		    die();
+		}
+		
+		$_SESSION['email'] = $email;
 		$_SESSION['given_name'] = $uia['given_name'];
 		$_SESSION['family_name'] = $uia['family_name'];
 

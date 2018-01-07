@@ -1,9 +1,5 @@
 <?php
 
-//print "Hello!";
-
-//include 'LogApp.php';
-
-print( "Huh?" );
+include 'logout.php';
 
 ?>
