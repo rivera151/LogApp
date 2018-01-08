@@ -1,6 +1,6 @@
 <?php
 
-	include_once 'LogApp.php';
+	include_once 'includes/LogApp.php';
 	
 	require_once LogApp::$googleApiPhpClientPath;
 
@@ -8,18 +8,22 @@
 
 	$client = new Google_Client();
 
-	$client->setAuthConfig( LogApp::$authConfig );
+	$client->setAuthConfig( 'includes/' . LogApp::$authConfig );
 
 	$client->addScope(['email', 'profile']);
-	$client->setRedirectUri( LogApp::getRootUrl() . 'includes/oauth2callback.php' );
+	$client->setRedirectUri( LogApp::getRootUrl() . 'oauth2callback.php' );
 
 	if (! isset($_GET['code'])) {
 		$auth_url = $client->createAuthUrl();
 		header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
 	} else {
 		$client->authenticate($_GET['code']);
-		$_SESSION['access_token'] = $client->getAccessToken();
-		$redirect_uri = LogApp::getRootUrl();
+		$at = $client->getAccessToken();
+		if ($client->isAccessTokenExpired())
+		    $client->refreshToken($at);
+		$at = $client->getAccessToken();
+		$_SESSION['access_token'] = $at;
+		$redirect_uri = LogApp::getRootUrl() . 'default.php';
 		header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 	}
 
