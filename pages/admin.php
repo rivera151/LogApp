@@ -29,7 +29,7 @@
 			$(".admin").attr('disabled', disabled);
 		});
 		
-		$(".admin").click(function() {
+		$(".admingit ").click(function() {
 			$("#update").show();
 		});
    </script>
