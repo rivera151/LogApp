@@ -1,0 +1,80 @@
+ .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+| |   _____      | || |     ____     | || |    ______    | || |      __      | || |   ______     | || |   ______     | |
+| |  |_   _|     | || |   .'    `.   | || |  .' ___  |   | || |     /  \     | || |  |_   __ \   | || |  |_   __ \   | |
+| |    | |       | || |  /  .--.  \  | || | / .'   \_|   | || |    / /\ \    | || |    | |__) |  | || |    | |__) |  | |
+| |    | |   _   | || |  | |    | |  | || | | |    ____  | || |   / ____ \   | || |    |  ___/   | || |    |  ___/   | |
+| |   _| |__/ |  | || |  \  `--'  /  | || | \ `.___]  _| | || | _/ /    \ \_ | || |   _| |_      | || |   _| |_      | |
+| |  |________|  | || |   `.____.'   | || |  `._____.'   | || ||____|  |____|| || |  |_____|     | || |  |_____|     | |
+| |              | || |              | || |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
+ 
+ v. 0.0
+ 
+ Radiology logging app for entering cases, facilitating signing and entering into ACGME.
+ 
+.___                 __         .__  .__          __  .__               
+|   | ____   _______/  |______  |  | |  | _____ _/  |_|__| ____   ____  
+|   |/    \ /  ___/\   __\__  \ |  | |  | \__  \\   __\  |/  _ \ /    \ 
+|   |   |  \\___ \  |  |  / __ \|  |_|  |__/ __ \|  | |  (  <_> )   |  \
+|___|___|  /____  > |__| (____  /____/____(____  /__| |__|\____/|___|  /
+         \/     \/            \/               \/                    \/ 
+
+For setting up a project environment observe the following:
+
+- I'm developing on a Mac, but the system stack is available on all three major platforms (Win/Mac/Linux).
+
+- I use Eclipse, and a project file is included.
+
+- System runs with apache web server.  Ideally the server should provide access to the site root folder 
+	and deny web access to the includes and pages directories.  .htaccess files have been provided as such,
+	however ideally this should be set by the server and not .htaccess.  To use .htaccess files, add the "AllowOverride None"
+	option in the site's "Directory" directive in httpd.conf/user.conf/site.conf (located in /etc/apache2 in 
+	Mac/UNIX, and in C:\System*\etc\apache2 in Windows systems if I remember correctly).
+	
+	Needless to say, PHP should be installed and the apache php module should be loaded (httpd.conf); this is usually 
+	trivial.
+	
+	Additionally, the PostgreSQL php drivers should be installed.
+	
+	Mac has built in support for both Apache and PHP.
+	
+	Otherwise you need to install Apache and PHP + drivers as indicated for your OS in their respective websites.
+	
+- PostgreSQL is the backend for now; you should be able to log in as the pgsql sysadmin.  Databse setup files are 
+	in Installation folder.  
+	
+	1. You should create a file called loadSampleData.psql with (at least) the single SQL statement: 
+		INSERT INTO users (email, role) VALUES ('your_email_address_here@gmail.com', 0);
+	to add yourself as a LogApp admin user authorized to view all pages.    
+	
+	2. Make sure you setup the variables in the setVars.psql and includes/LogApp.php files to match.
+	3. Run the file DatabaseSetup.psql as the PostgreSQL admin to setup the database.
+	
+- The google php api client: https://developers.google.com/api-client-library/php/start/installation.  After installing
+	on server, set path in includes/LogApp.php	
+  
+- The client secret needs to be in the includes directory. You should contact a developer to get a hold of the 
+	client secret to authenticate.  The secret file name can be set in includes/LogApp.php
+
+________                 ____ ___                              
+\______ \   _______  __ |    |   \___________     ____   ____  
+ |    |  \_/ __ \  \/ / |    |   /  ___/\__  \   / ___\_/ __ \ 
+ |    `   \  ___/\   /  |    |  /\___ \  / __ \_/ /_/  >  ___/ 
+/_______  /\___  >\_/   |______//____  >(____  /\___  / \___  >
+        \/     \/                    \/      \//_____/      \/ 
+        
+- General way to make a new page is:
+	1. Create the new file under the pages directory.
+	2. Create a new case statement on the switch/case statement in default.php. (script in html head)
+	3. Under the case statement, set the $headerText and $articleSource variables
+	4. Create a list item and link/anchor directly in html in the <nav> element for regular user item, or
+		in php (for admin items) in the head script to link to the new file.
+		
+This is a work in progress.
+
+Contact me for questions or comments.
+E-mail: rivera151@gmail.com  
+	
+ 
